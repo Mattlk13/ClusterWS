@@ -1,12 +1,12 @@
 {
   "name": "@clusterws/server",
-  "version": "4.0.0-alpha.8",
-  "description": "Lightweight, fast and powerful framework for building scalable Node.js WebSocket based applications.",
+  "version": "4.0.0-alpha.4",
+  "description": "Lightweight, fast and powerful framework for building scalable Node.js real-time applications.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "author": "Dmitrii Goriunov",
   "scripts": {
-    "test": "nyc mocha './src/**/*.test.ts' --exit",
+    "test": "nyc mocha './tests/**/*.test.ts' --exit",
     "build": "rimraf ./dist && npm run lint && tsc && npm run copy",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "copy": "cpx ./src/index.d.ts ./dist"
@@ -17,28 +17,30 @@
     "url": "https://github.com/ClusterWS/ClusterWS"
   },
   "dependencies": {
-    "@clusterws/cws": "^0.15.2"
+    "@clusterws/cws": "^3.0.0",
+    "pino": "^6.5.1"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.4",
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^10.9.4",
-    "chai": "^4.1.2",
+    "@types/chai": "^4.2.12",
+    "@types/mocha": "^8.0.3",
+    "@types/node": "^14.6.0",
+    "chai": "^4.2.0",
     "cpx": "^1.5.0",
-    "mocha": "^5.2.0",
-    "nyc": "^13.3.0",
-    "rimraf": "^3.0.0",
-    "ts-node": "^8.4.1",
-    "tslint": "^5.20.0",
+    "mocha": "^8.1.1",
+    "nyc": "^15.1.0",
+    "rimraf": "^3.0.2",
+    "ts-node": "^9.0.0",
+    "tslint": "^6.1.3",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.6.3",
-    "ws": "^7.1.2"
+    "typescript": "^4.0.2",
+    "ws": "^7.3.1"
   },
   "nyc": {
     "all": true,
     "temp-directory": "./node_modules/.cache/nyc_output",
     "include": [
-      "src/**/*.ts"
+      "src/**/*.ts",
+      "tests/**/*.ts"
     ],
     "exclude": [
       "src/index.d.ts"

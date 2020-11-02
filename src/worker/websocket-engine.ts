@@ -1,17 +1,16 @@
-// Simple wrapper around 'ws' and '@clusterws/cws' to make functionality similar
-// and add ability to switch between 2 different engines
+// Very simple wrapper around 'ws' and '@clusterws/cws' modules to make their api similar
+// temporary solution which will require some redesign in the future for maintenance
 
-import { WebSocket, WebSocketServer, ServerConfigs } from '@clusterws/cws';
+import { noop } from '../utils';
+import { ServerConfigs, WebSocket, WebSocketServer } from '@clusterws/cws';
 
-export type WebSocket = WebSocket;
-export type WebSocketServer = WebSocketServer;
+// TODO: get this types out without importing them from cws module
+export { WebSocket, WebSocketServer };
 
-const PING: any = new Uint8Array(['9'.charCodeAt(0)]).buffer;
-const PONG: any = new Uint8Array(['A'.charCodeAt(0)]).buffer;
+const PING: ArrayBuffer = new Uint8Array(['9'.charCodeAt(0)]).buffer;
+const PONG: ArrayBuffer = new Uint8Array(['A'.charCodeAt(0)]).buffer;
 
-function noop(): void { /** ignore */ }
-
-export enum WSEngine {
+enum WSEngine {
   WS = 'ws',
   CWS = '@clusterws/cws'
 }
@@ -19,7 +18,7 @@ export enum WSEngine {
 export class WebsocketEngine {
   private engineImport: any;
 
-  constructor(private engine: WSEngine) {
+  constructor(private engine: string) {
     this.engineImport = require(this.engine);
   }
 
@@ -69,6 +68,7 @@ export class WebsocketEngine {
         if (event === 'connection') {
           return wsServer.__onConnection = listener;
         }
+
         wsServer.__on(event, listener);
       };
 
@@ -121,7 +121,7 @@ export class WebsocketEngine {
           ws.ping(noop);
         });
 
-        setTimeout(() => autoPing(interval, appLevel), interval);
+        setTimeout((): void => autoPing(interval, appLevel), interval);
       };
 
       return wsServer;

@@ -5,12 +5,12 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "removeComments": true,
-    "declaration": false,
+    "declaration": true,
     "skipLibCheck": true
   },
   "exclude": [
-    "./src/**/*.test.ts",
-    "./node_modules"
+    "./node_modules",
+    "tests/**/*.test.ts"
   ],
   "include": [
     "./src/**/*.ts"
